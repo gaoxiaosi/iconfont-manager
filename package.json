@@ -1,0 +1,41 @@
+{
+  "name": "iconfont-manager",
+  "version": "1.0.1",
+  "description": " update && manage iconfont",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "iconfont",
+    "update",
+    "puppeteer"
+  ],
+  "author": "wupeng",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "homepage": "",
+  "license": "ISC",
+  "bin": {
+    "iconfont-manager": "bin/cli.js"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2",
+    "compressing": "^1.5.1",
+    "fs-extra": "^10.0.0",
+    "open": "^8.4.0",
+    "puppeteer": "^11.0.0",
+    "commander": "^8.3.0",
+    "ora": "^4.1.1",
+    "os": "^0.1.2"
+  },
+  "dependencies": {
+    "@koa/router": "^10.1.1",
+    "koa": "^2.13.4",
+    "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
+    "koa-websocket": "^6.0.0"
+  }
+}

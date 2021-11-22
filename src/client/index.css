@@ -1,0 +1,130 @@
+body, html {
+  height: 100%;
+}
+:checked[type=checkbox]+.checkable:after {
+  color: #0074d9;
+}
+#app {
+  position: relative;
+  font-size: 16px;
+  /* overflow: hidden; */
+  height: 100%;
+}
+#app .message-container {
+  position: absolute;
+  top: 10px;
+  left: calc(50% - 100px);
+  width: 200px;
+  height: auto;
+  text-align: center;
+  z-index: 2000;
+}
+#app .message-container .message-box {
+  height: 30px;
+  line-height: 30px;
+  color: #ffffff;
+  font-size: 14px;
+  margin-bottom: 10px;
+  opacity: 1;
+  transition: opacity 1s;
+  -ms-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -webkit-transition: opacity 1s;
+  -o-transition: opacity 1s;
+}
+#app .message-container .message-box {
+  height: 30px;
+  line-height: 30px;
+  color: #ffffff;
+  font-size: 14px;
+  margin-bottom: 10px;
+  opacity: 1;
+  transition: opacity 1s;
+  -ms-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -webkit-transition: opacity 1s;
+  -o-transition: opacity 1s;
+}
+/* #app .message-container .message-box.close {
+  opacity: 0;
+} */
+#app .message-container .message-box.success {
+  background-color: #2ecc40;
+}
+#app .message-container .message-box.fail {
+  background-color: #ff4136;
+}
+#app .tool-bar{
+  position: fixed;
+  left: 0;
+  padding: 0 20px;
+  border-bottom: 1px solid #dcdcdc;
+  z-index: 1000;
+  background-color: #ffffff;
+}
+#app .tool-bar .site-title {
+  font-size: 20px;
+  color: #0074d9;
+  font-weight: bold;
+  height: 50px;
+  line-height: 50px;
+}
+#app .project-container{
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  /* overflow: hidden; */
+  padding: 20px;
+}
+#app .project-container .project-box{
+  /* padding: 20px; */
+  display: flex;
+  border: 1px solid #dcdcdc;
+}
+#app .project-container .project-box:not(:last-child){
+  border-bottom: 0;
+}
+#app .project-container .project-box .box-left {
+  width: 34px;
+  margin-left: 5px;
+  border-right: 1px solid #dcdcdc;
+  text-align: center;
+  vertical-align: middle;
+}
+#app .project-container .project-box .box-center {
+  flex: 1;
+  padding-left: 10px;
+}
+#app .project-container .project-box .box-center > label {
+  padding:10px 10px 0 10px;
+}
+#app .project-container .project-box .box-center > label:not(:last-child) {
+  border-right: 1px solid #dcdcdc;
+}
+#app .project-container .project-box .box-right {
+  width: 200px;
+  border-left: 1px solid #dcdcdc;
+  text-align: center;
+  padding: 5px 0;
+}
+#app .project-container .project-box input,
+#app .project-container .project-box button,
+#app .tool-bar button {
+  font-size: 14px;
+}
+#app .project-container .project-box select {
+  font-size: 13px;
+}
+
+.modal .content {
+  width: 300px;
+}
+
+.modal .content .middle {
+  padding: 0 15px;
+}
+
+.modal .content .middle > input {
+  margin-top: 20px;
+}
