@@ -11,6 +11,7 @@ iconfont-manger是一个可以管理所有iconfont图标库更新的工具。
 ``` js
 iconfont-manager init <phoneNumber> <password>
 ```
+![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step1.png)
 ``` json
 {
   "projects": [
