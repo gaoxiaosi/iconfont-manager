@@ -11,7 +11,7 @@ iconfont-manger是一个可以管理所有iconfont图标库更新的工具。
 ``` js
 iconfont-manager init <phoneNumber> <password>
 ```
-![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step1.png)
+![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step1-1.png)
 ``` json
 {
   "projects": [
@@ -38,25 +38,25 @@ iconfont-manager init <phoneNumber> <password>
 ``` js
 iconfont-manager ls
 ```
-![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step2.png)
+![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step2-2.png)
 
 ### 3. 更新单个图标库
 ``` js
 iconfont-manager update <projectId>
 ```
-![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step3.png)
+![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step3-3.png)
 
 ### 4. 更新多个图标库
 ``` js
 iconfont-manager update <projectId...>
 ```
-![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step4.png)
+![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step4-4.png)
 
 ### 5. 图形化界面管理
 ``` js
 iconfont-manager ui
 ```
-![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step5.png)
+![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step5-5.png)
 ### 6. 更新临时项目
 更新`.iconfontrc`文件中没有的图标库
 ``` js
