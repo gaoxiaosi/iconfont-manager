@@ -1,4 +1,4 @@
-// 不想为这个文件单独打包，先这样写，与服务端类型相同
+// 与服务端类型相同
 const SOCKET_TYPE = {
   'GET_ALL': 'GET_ALL',
   'SAVE_ONE': 'SAVE_ONE',
@@ -10,13 +10,13 @@ const SOCKET_TYPE = {
   'ADD_ONE': 'ADD_ONE',
   'MESSAGE_TIP': 'MESSAGE_TIP'
 }
-const port = 9527
-let ws = null
+const port = 9527;
+let ws = null;
 
 if (typeof WebSocket !== undefined) {
-  init()
+  init();
 } else {
-  // alert('您的浏览器不支持websocket，请更换浏览器！')
+  alert('您的浏览器不支持websocket，请更换浏览器！');
 }
 
 function init() {
@@ -83,7 +83,7 @@ function clickBtnGetProjectData(container) {
 // socket连接成功后，服务端会发送所有的project data过来，然后渲染成列表的形式
 function createTable(projects) {
   const container = document.querySelector('.project-container');
-  let context = ''
+  let context = '';
   projects.map(({id, name, user, password, filePath}, index) => {
     context +=`
     <div class="project-box project-box-content" data-index="${index}">
@@ -108,7 +108,7 @@ function createTable(projects) {
     </div>
     `
   })
-  container.appendChild(parseStringToDOM(context))
+  container.appendChild(parseStringToDOM(context));
 }
 
 // 接收服务端返回的消息提醒：用于各种操作是否成功或失败
