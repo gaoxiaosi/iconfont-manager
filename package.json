@@ -19,7 +19,7 @@
   "homepage": "https://github.com/gaoxiaosi/iconfont-manager#README",
   "license": "ISC",
   "bin": {
-    "iconfont-manager": "bin/cli.js"
+    "iconfont-manager": "./bin/cli.js"
   },
   "dependencies": {
     "@koa/router": "^10.1.1",
