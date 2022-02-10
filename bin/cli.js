@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander');
+const chalk = require('chalk');
+console.log(chalk.green('Tips：iconfont网站可能会有变化，如果爬虫无法使用，请及时更新或者到GitHub提交issue！'));
 
 program.command('ls')
   .alias('l')
