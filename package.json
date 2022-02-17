@@ -7,9 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
+    "puppeteer",
     "iconfont",
     "update",
-    "puppeteer"
+    "manager"
   ],
   "author": "wupeng",
   "repository": {

@@ -12,7 +12,7 @@ program.command('ls')
 
 program.command('init')
   .alias('i')
-  .description('爬取所有的图标库的信息并保存在本地')
+  .description('爬取所有的图标库的信息并保存在系统目录下的.iconfontrc文件中')
   .arguments('<phoneNumber> <password>')
   .action((phoneNumber, password) => {
     require('../lib/init')(phoneNumber, password)
@@ -20,7 +20,7 @@ program.command('init')
 
 program.command('update')
   .alias('u')
-  .description('更新单个或多个已保存信息在本地的图标库')
+  .description('更新单个或多个已保存信息在.iconfontrc的图标库')
   .arguments('<projectIds...>')
   .action((projectIds) => {
     require('../lib/update')(projectIds)
