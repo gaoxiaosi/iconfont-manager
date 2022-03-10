@@ -71,6 +71,11 @@ iconfont-manager updateOne <id> <name> <user> <password> <filePath>
 iconfont-manager add <id> <name> <user> <password> <filePath> [immediately]
 ```
 
+### 8. 查看图标库的预览页面
+``` js
+iconfont-manager preview <id>
+```
+
 ## 补充说明
 支持多用户，可以修改`.iconfontrc`文件配置即可，如下图例子两个用户手机号不同
 ``` json
