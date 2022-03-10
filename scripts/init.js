@@ -1,23 +1,17 @@
 const puppeteer = require('puppeteer');
-const log = console.log;
-const chalk = require('chalk');
-const spinner = require('ora')();
-
-const { loginUrl, loginRequestUrl, projectLibraryUrl } = require('./iconfont.config');
-const throwError = (errorTips) => {
-  throw new Error(errorTips)
-}
+const { chalkGreen, spinnerStart, spinnerSucceed, throwError } = require('../utils/common');
+const { timeout, loginUrl, loginRequestUrl, projectLibraryUrl } = require('../utils/iconfont.config');
 
 const initScript = async (user, password) => {
   // 打开Browser和Page，跳转到登录页面
-  const browser = await puppeteer.launch({ headless: true, timeout: 30000 });
-  log(chalk.green('✔ 打开Browser'));
+  const browser = await puppeteer.launch({ headless: true, timeout });
+  chalkGreen('✔ 打开Browser');
   const page = await browser.newPage();
-  log(chalk.green('✔ 打开Page'));
+  chalkGreen('✔ 打开Page');
   await page.goto(loginUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('#userid');
   await page.waitForSelector('#password');
-  spinner.start(chalk.green('开始登录'));
+  spinnerStart('开始登录');
   // 先清空表单，再重新输入账号密码（切换用户登录时输入框可能有缓存）
   await page.$eval('#userid', (input, user) => { input.value = user }, user);
   await page.$eval('#password', (input, password) => { input.value = password }, password);
@@ -32,7 +26,7 @@ const initScript = async (user, password) => {
   await page.$('#userid-error') && throwError('账号不合法');
   await page.$('#password-error') && throwError('密码不合法');
   await page.waitForNavigation();
-  spinner.succeed(chalk.green('登录成功'));
+  spinnerSucceed('登录成功');
 
   // 登录成功后，打开项目库页面
   await page.goto(projectLibraryUrl, {

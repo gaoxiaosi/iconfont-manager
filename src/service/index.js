@@ -8,13 +8,12 @@ const app = websockify(new Koa());
 const path = require('path');
 const fs = require('fs');
 const open = require('open');
-const readConfig = require('../../lib/readConfig');
-const writeConfig = require('../../lib/writeConfig');
+const { readConfig, writeConfig } = require('../../utils/manageConfig');
 
 const SOCKET_TYPE = require('./socket-type');
 const port = 9527
 
-const downloadScript = require('../../lib/downloadScript');
+const downloadScript = require('../../scripts/download');
 
 app.ws.use(async(ctx, next) => {
   const { projects } = await readConfig()

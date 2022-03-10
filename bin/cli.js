@@ -32,9 +32,17 @@ program.command('ui')
     require('../lib/ui')()
   })
 
+program.command('preview')
+  .alias('p')
+  .description('查看图标库的预览页面')
+  .arguments('<projectId>')
+  .action((projectId) => {
+    require('../lib/preview')(projectId)
+  })
+
 program.command('updateOne')
   .alias('uo')
-  .description('更新单个图标库，需输入所有信息')
+  .description('临时更新单个图标库，需输入所有信息')
   .arguments('<id> <name> <user> <password> <filePath>')
   .action((id, name, user, password, filePath) => {
     require('../lib/updateOne')(id, name, user, password, filePath)

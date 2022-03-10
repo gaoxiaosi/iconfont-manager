@@ -1,25 +1,12 @@
 const puppeteer = require('puppeteer');
-const path = require('path');
 const fs = require('fs-extra');
 const compressing = require('compressing');
-const chalk = require('chalk');
-const spinner = require('ora')();
 
- // 默认超时时间：30秒，Puppeteer打开Browser和Page的超时，下载图标库压缩包超时
-const timeout = 30000;
-const { loginUrl, loginRequestUrl, projectLibraryUrl } = require('./iconfont.config');
+ // 超时时间，登录页面url，登录请求url，项目管理url
+const { timeout, loginUrl, loginRequestUrl, projectLibraryUrl } = require('../utils/iconfont.config');
 
-// 信息打印
-const chalkGreen = msg => console.log(chalk.green(msg));
-const spinnerStart = msg => spinner.start(chalk.green(msg));
-const spinnerSucceed = msg => spinner.succeed(chalk.green(msg));
-
-// 主动抛错
-const throwError = errorTips => { throw new Error(errorTips) }
-
-// 获取绝对路径 && 路径拼接
-const resolvePath = filePath => path.resolve(__dirname, filePath)
-const joinPath = (...args) => path.join(...args)
+// 信息打印 && 主动抛错 && 路径获取与拼接
+const { chalkGreen, spinnerStart, spinnerSucceed, throwError, resolvePath, joinPath } = require('../utils/common');
 
 let browser = null,       // Puppeteer的Browser对象
     page = null,          // Puppeteer的Page对象
