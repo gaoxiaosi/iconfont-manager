@@ -68,13 +68,17 @@ function clickBtnGetProjectData(container) {
   const user = container.querySelector('.user-input').value;
   const password = container.querySelector('.password-input').value;
   const filePath = container.querySelector('.path-input').value;
+  const fontClass = container.querySelector('.class-input').value;
+  const updateTime = container.querySelector('.time-input').value;
   return {
     project: {
       id,
       name,
       user,
       password,
-      filePath
+      filePath,
+      fontClass,
+      updateTime
     },
     index
   }
@@ -84,7 +88,7 @@ function clickBtnGetProjectData(container) {
 function createTable(projects) {
   const container = document.querySelector('.project-container');
   let context = '';
-  projects.map(({id, name, user, password, filePath}, index) => {
+  projects.map(({id, name, user, password, filePath, fontClass, updateTime}, index) => {
     context +=`
     <div class="project-box project-box-content" data-index="${index}">
       <div class="box-left">
@@ -99,6 +103,8 @@ function createTable(projects) {
         <label style="width: 15%;"><input class="user-input" type="text" placeholder="所属用户" value="${user}" /></label>
         <label style="width: 15%;"><input class="password-input" type="password" placeholder="密码" value="${password}" /></label>
         <label style="width: 40%;"><input class="path-input" type="text" placeholder="保存路径" value="${filePath}" /></label>
+        <label style="display: none;"><input class="class-input" type="text" placeholder="fontClass" value="${fontClass}" /></label>
+        <label style="display: none;"><input class="time-input" type="text" placeholder="更新时间" value="${updateTime}" /></label>
       </div>
       <div class="box-right">
         <button class="success update-one-btn" onClick="updateOneBtnClick(event)">更新</button>
