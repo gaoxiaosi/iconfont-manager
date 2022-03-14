@@ -4,7 +4,7 @@
   "description": "iconfont的自动化更新和管理",
   "main": "index.js",
   "scripts": {
-    "test": "node ./bin/cli.js"
+    "dev": "node ./bin/cli.js"
   },
   "keywords": [
     "puppeteer",

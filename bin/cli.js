@@ -18,6 +18,14 @@ program.command('init')
     require('../lib/init')(phoneNumber, password)
   })
 
+program.command('refresh')
+  .alias('r')
+  .description('更新.iconfontrc文件中的某条数据，不进行下载操作')
+  .arguments('<projectId>')
+  .action((projectId) => {
+    require('../lib/refresh')(projectId)
+  })
+
 program.command('update')
   .alias('u')
   .description('更新单个或多个已保存信息在.iconfontrc的图标库')

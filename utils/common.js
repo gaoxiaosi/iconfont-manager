@@ -14,11 +14,22 @@ const throwError = errorTips => { throw new Error(errorTips) }
 const resolvePath = filePath => path.resolve(__dirname, filePath)
 const joinPath = (...args) => path.join(...args)
 
+const getNowTime = () => {
+  const now = new Date();
+  const year = now.getFullYear(),
+        month = (now.getMonth() + 1).toString().padStart(2, '0'),
+        date = (now.getDate()).toString().padStart(2, '0'),
+        hours = (now.getHours()).toString().padStart(2, '0'),
+        minute = (now.getMinutes()).toString().padStart(2, '0');
+  return `${year}-${month}-${date} ${hours}:${minute}`;
+}
+
 module.exports = {
   chalkGreen,
   spinnerStart,
   spinnerSucceed,
   throwError,
   resolvePath,
-  joinPath
+  joinPath,
+  getNowTime
 }

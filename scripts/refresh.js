@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const { chalkGreen, spinnerStart, spinnerSucceed, throwError, getNowTime } = require('../utils/common');
 const { timeout, loginUrl, loginRequestUrl, projectLibraryUrl, detailRequestUrl } = require('../utils/iconfont.config');
 
-const initScript = async (user, password) => {
+const refreshScript = async (user, password, projectId, filePath) => {
   // 打开Browser和Page，跳转到登录页面
   const browser = await puppeteer.launch({ 
     headless: true,
@@ -43,45 +43,46 @@ const initScript = async (user, password) => {
   // 获取所有的项目信息
   await page.waitForSelector('.J_scorll_project_own .nav-item, .J_scorll_project_corp .nav-item');
   const nowTime = getNowTime();
-  let projects = await page.$$eval('.J_scorll_project_own .nav-item, .J_scorll_project_corp .nav-item', (els, user, password, nowTime) => {
-    let list = [];
+  let project = await page.$$eval('.J_scorll_project_own .nav-item, .J_scorll_project_corp .nav-item', (els, user, password, projectId, filePath, nowTime) => {
+    let data = {}, id = '';
     for(let i = 0; i < els.length; i++) {
-      list.push({
-        id: els[i].getAttribute('mx-click').match(/\((\S*)\)/)[1],
-        name: els[i].innerText,
-        user,
-        password,
-        filePath: '',
-        fontClass: '',
-        // symbol: '', symbol和fontClass链接一样，只是后缀改为js
-        updateTime: nowTime
-      })
+      id = els[i].getAttribute('mx-click').match(/\((\S*)\)/)[1];
+      if (id === projectId) {
+        data = {
+          id,
+          name: els[i].innerText,
+          user,
+          password,
+          filePath,
+          fontClass: '',
+          updateTime: nowTime
+        }
+        break;
+      }
     }
-    return list
-  }, user, password, nowTime)
+    return data
+  }, user, password, projectId, filePath, nowTime)
 
   // 处理使用指引的按钮的干扰，点击所有可视的“我知道了”按钮（可能有多个）
   await page.$$eval('.btn-iknow', btns => btns.map(btn => btn.clientWidth > 0 && btn.click()));
 
-  for (let i = 0; i < projects.length; i++) {
-    await page.goto(`${projectLibraryUrl}&projectId=${projects[i].id}`)
-    await page.waitForSelector('.bar-link');
-    let coverBtnLen = 0;
-    coverBtnLen = await page.$$eval('.cover-btn', btns => btns.length);
-    coverBtnLen === 0 && await page.click('.bar-link');
-    // 第一次生成链接时
-    await page.waitForSelector('.code-link');
-    // 点击更新代码
-    await page.$$eval('.cover-btn', btns => btns.map((btn, index) => index === 1 && btn.click()));
-    coverBtnLen = await page.$$eval('.cover-btn', btns => btns.length);
-    coverBtnLen === 2 && await page.waitForResponse(response => response.url().includes(detailRequestUrl));
-    projects[i].fontClass = await page.$eval('.code-link', el => el.innerText);
-  }
+  await page.goto(`${projectLibraryUrl}&projectId=${projectId}`)
+  await page.waitForSelector('.bar-link');
+  let coverBtnLen = 0;
+  coverBtnLen = await page.$$eval('.cover-btn', btns => btns.length);
+  coverBtnLen === 0 && await page.click('.bar-link');
+  // 第一次生成链接时
+  await page.waitForSelector('.code-link');
+  // 点击更新代码
+  await page.$$eval('.cover-btn', btns => btns.map((btn, index) => index === 1 && btn.click()));
+  coverBtnLen = await page.$$eval('.cover-btn', btns => btns.length);
+  coverBtnLen === 2 && await page.waitForResponse(response => response.url().includes(detailRequestUrl));
+  project.fontClass = await page.$eval('.code-link', el => el.innerText);
 
   await page.close();
   await browser.close();
 
-  return projects
+  return project
 }
 
-module.exports = initScript
+module.exports = refreshScript
