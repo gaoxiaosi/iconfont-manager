@@ -75,6 +75,13 @@ iconfont-manager add <id> <name> <user> <password> <filePath> [immediately]
 ``` js
 iconfont-manager preview <id>
 ```
+![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step8-8.png)
+
+### 9. 更新图标库的信息（主要是获取最新的在线链接），只更新不下载
+``` js
+iconfont-manager refresh <id>
+```
+![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step9-9.png)
 
 ## 补充说明
 支持多用户，可以修改`.iconfontrc`文件配置即可，如下图例子两个用户手机号不同
