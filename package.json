@@ -1,6 +1,6 @@
 {
   "name": "iconfont-manager",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "description": "iconfont的自动化更新和管理",
   "main": "index.js",
   "scripts": {
