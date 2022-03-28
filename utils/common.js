@@ -14,14 +14,20 @@ const throwError = errorTips => { throw new Error(errorTips) }
 const resolvePath = filePath => path.resolve(__dirname, filePath)
 const joinPath = (...args) => path.join(...args)
 
+// 在数字前面补0
+Number.prototype.addZero = function (number = 2) {
+  return this.toString().padStart(number, 0)
+}
+
+// 获取当前时间 yyyy-MM-dd hh:mm
 const getNowTime = () => {
   const now = new Date();
   const year = now.getFullYear(),
-        month = (now.getMonth() + 1).toString().padStart(2, '0'),
-        date = (now.getDate()).toString().padStart(2, '0'),
-        hours = (now.getHours()).toString().padStart(2, '0'),
-        minute = (now.getMinutes()).toString().padStart(2, '0');
-  return `${year}-${month}-${date} ${hours}:${minute}`;
+        month = (now.getMonth() + 1).addZero(),
+        date = (now.getDate()).addZero(),
+        hour = (now.getHours()).addZero(),
+        minute = (now.getMinutes()).addZero();
+  return `${year}-${month}-${date} ${hour}:${minute}`;
 }
 
 module.exports = {
