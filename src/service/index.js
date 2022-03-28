@@ -8,7 +8,7 @@ const app = websockify(new Koa());
 const path = require('path');
 const fs = require('fs');
 const open = require('open');
-const { readConfig, writeConfig } = require('../../utils/manageConfig');
+const { readConfig, writeConfig } = require('../../utils/fileHandle');
 
 const SOCKET_TYPE = require('./socket-type');
 const port = 9527
