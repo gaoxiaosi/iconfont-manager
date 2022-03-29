@@ -49,7 +49,7 @@ const showTable = (list, heads, keys) => {
   for (const item of list) {
     table.push(keys.map(key => chalk.green(item[key])))
   }
-  console.log(table.toString())
+  console.log(table.toString());
 }
 
 module.exports = {
