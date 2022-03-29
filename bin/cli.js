@@ -2,7 +2,7 @@
 const program = require('commander');
 const { chalkYellow } = require('../utils/common');
 
-chalkYellow('Tips：iconfont网站可能会有变化，若爬虫无法使用，请及时更新或到GitHub提交issue！');
+chalkYellow('Tips：iconfont网站可能有变化，若爬虫无法使用，请及时更新或到GitHub提交issue！');
 
 program.command('ls')
   .alias('l')
