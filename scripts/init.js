@@ -1,6 +1,6 @@
 const { chalkGreen, getNowTime } = require('../utils/common');
 const { projectLibraryUrl, detailRequestUrl } = require('../utils/iconfont.config');
-const { handleIknowBtn } = require('../utils/operation');
+const { createBrowser, login, handleIknowBtn } = require('../utils/operation');
 
 const initScript = async (user, password) => {
   const browser = await createBrowser();

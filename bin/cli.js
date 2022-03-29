@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 const program = require('commander');
-const { chalkGreen } = require('../utils/common');
-chalkGreen('Tips：iconfont网站可能会有变化，如果爬虫无法使用，请及时更新或者到GitHub提交issue！');
+const { chalkYellow } = require('../utils/common');
+
+chalkYellow('Tips：iconfont网站可能会有变化，若爬虫无法使用，请及时更新或到GitHub提交issue！');
 
 program.command('ls')
   .alias('l')

@@ -4,14 +4,29 @@ const homedir = require('os').homedir();
 
 const { joinPath } = require('./common');
 
+// 通用（同步函数）：是否存在
+const isExist = path => fs.existsSync(path)
+
+// 通用：创建文件或文件夹，需先判断是否存在
+const createFile = async (file) => !isExist(file) && await fs.createFile(file)
+
+// 通用：删除文件或文件夹，需先判断是否存在
+const removeFile = async (file) => isExist(file) && await fs.remove(file)
+
+// 通用：将json数据写入文件
+const writeJSON = async (file, jsonData) => await fs.writeJSON(file, jsonData)
+
+// 通用：读取json文件
+const readJSON = async (jsonFile) => await fs.readJSON(jsonFile)
+
 // 解析用户目录下的.iconfontrc文件
 const readConfig = async () => {
   let config = []
-  if(!fs.existsSync(joinPath(homedir, '.iconfontrc'))) {
+  if(!isExist(joinPath(homedir, '.iconfontrc'))) {
     console.error(`.iconfontrc不存在，请使用iconfont-manager init <phoneNumber> <password>进行初始化或新建该文件或自行在${homedir}目录下新建该文件`);
   } else {
     try {
-      config = await fs.readJSON(joinPath(homedir, '.iconfontrc'));
+      config = await readJSON(joinPath(homedir, '.iconfontrc'));
     } catch(err) {
       console.error(err)
     }
@@ -21,11 +36,11 @@ const readConfig = async () => {
 
 // 解析用户目录下的.iconfontrc文件
 const writeConfig = async (content) => {
-  if(!fs.existsSync(joinPath(homedir, '.iconfontrc'))) {
+  if(!isExist(joinPath(homedir, '.iconfontrc'))) {
     console.error(`.iconfontrc不存在，请使用iconfont-manager init <phoneNumber> <password>进行初始化或新建该文件或自行在${homedir}目录下新建该文件`);
   } else {
     try {
-      await fs.writeJSON(joinPath(homedir, '.iconfontrc'), content);
+      await writeJSON(joinPath(homedir, '.iconfontrc'), content);
     } catch(err) {
       console.error(err)
     }
@@ -36,15 +51,6 @@ const writeConfig = async (content) => {
 const compressingZip = async(path) => {
   await compressing.zip.uncompress(joinPath(path, 'download.zip'), path)
 }
-
-// 通用（同步函数）：是否存在
-const isExist = path => fs.existsSync(path)
-
-// 通用：删除文件或文件夹，需先判断是否存在
-const createFile = async (file) => !isExist(file) && await fs.createFile(file);
-
-// 通用：删除文件或文件夹，需先判断是否存在
-const removeFile = async (file) => isExist(file) && await fs.remove(file)
 
 // 删除原有iconfont文件夹和下载的download.zip
 async function deleteDir(path) {
@@ -64,11 +70,13 @@ async function renameDir(path) {
 }
 
 module.exports = {
-  readConfig,
-  writeConfig,
   isExist,
   createFile,
   removeFile,
+  writeJSON,
+  readJSON,
+  readConfig,
+  writeConfig,
   compressingZip,
   deleteDir,
   renameDir

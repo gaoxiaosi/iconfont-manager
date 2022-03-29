@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer');
  // 超时时间，登录页面url，登录请求url，项目管理url
 const { timeout, width, height, loginUrl, loginRequestUrl } = require('../utils/iconfont.config');
 // 开始打印 && 成功打印 && 主动抛错
-const { spinnerStart, spinnerSucceed, throwError } = require('../utils/common');
+const { spinnerStart, spinnerSucceed, throwError, extend } = require('../utils/common');
 
 // Browser的默认设置
 const defaultOption = {
@@ -25,7 +25,7 @@ const defaultOption = {
   },
 }
 
-const createBrowser = async (option) => await puppeteer.launch(Object.assign(defaultOption, option || {}))
+const createBrowser = async (option = {}) => await puppeteer.launch(extend(defaultOption, option))
 
 // 这种方式会导致page对象没有提示且需传入browser对象，省不了几行代码，暂不需对page进行设置，因此先不使用
 // const createPage = async (browser) => await browser.newPage()
