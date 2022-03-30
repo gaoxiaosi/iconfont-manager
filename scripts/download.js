@@ -5,7 +5,7 @@ const { chalkGreen, spinnerStart, spinnerSucceed, resolvePath, joinPath } = requ
 // 是否存在 && 解压 && 删除 && 重命名
 const { isExist, removeFile, compressingZip, deleteDir, renameDir } = require('../utils/fileHandle');
 // 创建Browser && 登录 && 退出 && 处理操作引导
-const { createBrowser, login, loginout, handleIknowBtn } = require('../utils/operation');
+const { createBrowser, login, loginout, handleIknowBtn, pageGo } = require('../utils/operation');
 
 let browser = null,       // Puppeteer的Browser对象
     page = null,          // Puppeteer的Page对象
@@ -42,9 +42,7 @@ const downloadScript = async (id, name, user, password, filePath, isRelogin, isC
 
   // 登录成功后，打开项目链接
   spinnerStart('跳转到图标库管理页');
-  await page.goto(`${projectLibraryUrl}&projectId=${id}`, {
-    waitUntil: 'domcontentloaded'
-  })
+  await pageGo(page, `${projectLibraryUrl}&projectId=${id}`)
   await page.waitForSelector('.project-manage-bar > a.bar-text');
   spinnerSucceed('图标库管理页跳转成功');
 
@@ -67,6 +65,7 @@ const downloadScript = async (id, name, user, password, filePath, isRelogin, isC
   const zipPath = joinPath(savePath, 'download.zip');
   await removeFile(zipPath);
   await removeFile(zipPath + '.crdownload');
+  await page.waitForSelector('.bar-link');
   // 处理使用指引的按钮的干扰，点击所有可视的“我知道了”按钮（可能有多个）
   await handleIknowBtn(page)
   // 点击下载按钮，触发压缩包下载（一个这么特殊的按钮一个特殊的id或class都没有，第一个a标签：下载至本地）
