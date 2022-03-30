@@ -7,9 +7,9 @@
 const puppeteer = require('puppeteer');
 
  // 超时时间，登录页面url，登录请求url，项目管理url
-const { timeout, width, height, loginUrl, loginRequestUrl } = require('../utils/iconfont.config');
+const { timeout, width, height, loginUrl, loginRequestUrl, projectLibraryUrl, detailRequestUrl } = require('../utils/iconfont.config');
 // 开始打印 && 成功打印 && 主动抛错
-const { spinnerStart, spinnerSucceed, throwError, extend } = require('../utils/common');
+const { spinnerStart, spinnerSucceed, throwError, extend, getNowTime } = require('../utils/common');
 
 // Browser的默认设置
 const defaultOption = {
@@ -25,13 +25,17 @@ const defaultOption = {
   },
 }
 
+// 创建Browser
 const createBrowser = async (option = {}) => await puppeteer.launch(extend(defaultOption, option))
 
-// 这种方式会导致page对象没有提示且需传入browser对象，省不了几行代码，暂不需对page进行设置，因此先不使用
+// 这种方式会导致page对象没有提示且需传入browser对象，typescript的断言真好；省不了几行代码，因此先不使用
 // const createPage = async (browser) => await browser.newPage()
 
+// 页面跳转
+const pageGo = async (page, url) => await page.goto(url, { waitUntil: 'domcontentloaded' })
+
 const login = async (page, user, password) => {
-  await page.goto(loginUrl, { waitUntil: 'domcontentloaded' });
+  await pageGo(page, loginUrl);
   await page.waitForSelector('#userid');
   await page.waitForSelector('#password');
   spinnerStart('开始登录');
@@ -63,13 +67,79 @@ const loginout = async (page) => {
 }
 
 // 处理使用指引的按钮的干扰，点击所有可视的“我知道了”按钮（可能有多个）
+// 注意：需要等收起在线链接、下载到本地等按钮出现才会有这个指引按钮
 const handleIknowBtn = async (page) => {
-  await page.$$eval('.btn-iknow', btns => btns.map(btn => btn.clientWidth > 0 && btn.click()));
+  await page.$$eval('.btn-iknow', btns => btns.map(btn => btn.click()));
+}
+
+// 获取所有的图标库的基本信息，如果传具体的图标库id，只获取该图标库，否则获取所有
+const getProjectInfo = async (page, user, password, filePath = '', projectId = '') => {
+  await page.waitForSelector('.J_scorll_project_own .nav-item, .J_scorll_project_corp .nav-item');
+  const nowTime = getNowTime();
+  let projects = await page.$$eval('.J_scorll_project_own .nav-item, .J_scorll_project_corp .nav-item', (els, user, password, filePath, nowTime, projectId) => {
+    let list = [];
+    for(let i = 0; i < els.length; i++) {
+      let item = {
+        id: els[i].getAttribute('mx-click').match(/\((\S*)\)/)[1],
+        name: els[i].innerText,
+        user,
+        password,
+        filePath,
+        fontClass: '',
+        updateTime: nowTime
+      }
+      if (projectId !== '') {
+        if (item.id == projectId) {
+          list.push(item);
+          break;
+        }
+      } else {
+        list.push(item)
+      }
+    }
+    return list
+  }, user, password, filePath, nowTime, projectId)
+  return projects || []
+}
+
+/**
+ * @description 获取某个图标库的在线链接fontClass
+ * @param {Object} page Puppeteer的page对象
+ * @param {String} projectId 图标库id
+ * @returns {String} fontClass 在线链接
+ */
+const getFontClass = async (page, projectId) => {
+  await pageGo(page, `${projectLibraryUrl}&projectId=${projectId}`)
+  await page.waitForSelector('.bar-link');
+  // 处理使用指引的按钮的干扰，点击所有可视的“我知道了”按钮（可能有多个）
+  await handleIknowBtn(page);
+  let coverBtnLen = 0, codeLink = '', fontClass = '';
+  coverBtnLen = await page.$$eval('.cover-btn', btns => btns.length);
+  coverBtnLen === 0 && await page.click('.bar-link');
+  // 第一次生成链接时
+  await page.waitForSelector('.code-link');
+
+  coverBtnLen = await page.$$eval('.cover-btn', btns => btns.length);
+  codeLink = await page.$eval('.code-link', el => el.innerText)
+  if (coverBtnLen === 2) {
+    // 点击更新代码
+    await page.$$eval('.cover-btn', btns => btns.map((btn, index) => index === 1 && btn.click()));
+    await page.waitForResponse(response => response.url().includes(detailRequestUrl));
+  } else if (coverBtnLen === 1 && !codeLink) {
+    await page.click('.cover-btn');
+    await page.waitForResponse(response => response.url().includes(detailRequestUrl));
+  }
+  await page.waitForSelector('.code-link');
+  fontClass = await page.$eval('.code-link', el => el.innerText);
+  return fontClass || ''
 }
 
 module.exports = {
   createBrowser,
+  pageGo,
   login,
   loginout,
-  handleIknowBtn
+  handleIknowBtn,
+  getProjectInfo,
+  getFontClass
 }
