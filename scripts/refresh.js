@@ -1,7 +1,14 @@
 const { chalkGreen, spinnerStart, spinnerSucceed } = require('../utils/common');
 const { projectLibraryUrl } = require('../utils/iconfont.config');
 const { createBrowser, login, getFontClass, pageGo, getProjectInfo } = require('../utils/operation');
-
+/**
+ * @description 根据图标库id获取图标库的最新信息（主要是在线地址）
+ * @param {String} user 账号
+ * @param {String} password 密码
+ * @param {String} projectId 图标库id
+ * @param {String} filePath 保存地址
+ * @returns {String} 项目完整信息
+ */
 const refreshScript = async (user, password, projectId, filePath) => {
   const browser = await createBrowser();
   chalkGreen('✔ 打开Browser');

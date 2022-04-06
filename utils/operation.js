@@ -34,6 +34,7 @@ const createBrowser = async (option = {}) => await puppeteer.launch(extend(defau
 // 页面跳转
 const pageGo = async (page, url) => await page.goto(url, { waitUntil: 'domcontentloaded' })
 
+// 登录
 const login = async (page, user, password) => {
   await pageGo(page, loginUrl);
   await page.waitForSelector('#userid');
@@ -56,6 +57,7 @@ const login = async (page, user, password) => {
   spinnerSucceed('登录成功');
 }
 
+// 退出登录
 const loginout = async (page) => {
   spinnerStart('开始退出登录');
   // 鼠标滑过右上角用户头像，点击退出按钮退出登录
