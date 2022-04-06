@@ -4,7 +4,8 @@
   "description": "iconfont的自动化更新和管理",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./bin/cli.js"
+    "dev": "node ./bin/cli.js",
+    "test": "jest"
   },
   "keywords": [
     "puppeteer",
@@ -37,5 +38,8 @@
     "ora": "^4.1.1",
     "os": "^0.1.2",
     "puppeteer": "^13.3.2"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }
