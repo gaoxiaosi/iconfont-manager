@@ -69,9 +69,7 @@ const getNowTime = () => {
  */
 const showTable = (list, heads = tableHeads, keys = tableKeys) => {
   let table = new Table(extend(tableDefaultOption, { head: heads }));
-  for (const item of list) {
-    table.push(keys.map(key => chalk.green(item[key])))
-  }
+  list.forEach(item => table.push(keys.map(key => chalk.green(item[key]))))
   console.log(table.toString());
 }
 

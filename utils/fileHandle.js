@@ -19,16 +19,18 @@ const writeJSON = async (file, jsonData) => await fs.writeJSON(file, jsonData)
 // 通用：读取json文件
 const readJSON = async (jsonFile) => await fs.readJSON(jsonFile)
 
+const errorTip = `.iconfontrc不存在，请使用iconfont-manager init <phoneNumber> <password>进行初始化或在${homedir}目录下新建该文件`
+
 // 解析用户目录下的.iconfontrc文件
 const readConfig = async () => {
   let config = []
   if(!isExist(joinPath(homedir, '.iconfontrc'))) {
-    console.error(`.iconfontrc不存在，请使用iconfont-manager init <phoneNumber> <password>进行初始化或新建该文件或自行在${homedir}目录下新建该文件`);
+    console.error(errorTip);
   } else {
     try {
       config = await readJSON(joinPath(homedir, '.iconfontrc'));
     } catch(err) {
-      console.error(err)
+      console.error(err);
     }
   }
   return config
@@ -37,7 +39,7 @@ const readConfig = async () => {
 // 解析用户目录下的.iconfontrc文件
 const writeConfig = async (content) => {
   if(!isExist(joinPath(homedir, '.iconfontrc'))) {
-    console.error(`.iconfontrc不存在，请使用iconfont-manager init <phoneNumber> <password>进行初始化或新建该文件或自行在${homedir}目录下新建该文件`);
+    console.error(errorTip);
   } else {
     try {
       await writeJSON(joinPath(homedir, '.iconfontrc'), content);

@@ -7,26 +7,13 @@
 const puppeteer = require('puppeteer');
 
  // 超时时间，登录页面url，登录请求url，项目管理url
-const { timeout, width, height, loginUrl, loginRequestUrl, projectLibraryUrl, detailRequestUrl } = require('../utils/iconfont.config');
+const { loginUrl, loginRequestUrl, projectLibraryUrl, detailRequestUrl } = require('../utils/iconfont.config');
 // 开始打印 && 成功打印 && 主动抛错
 const { spinnerStart, spinnerSucceed, throwError, extend, getNowTime } = require('../utils/common');
 
-// Browser的默认设置
-const defaultOption = {
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  ignoreHTTPSErrors: true,
-  executablePath: process.env.CHROME_PUPPETEER_PATH || undefined,
-  dumpio: false,
-  headless: true,
-  timeout,
-  defaultViewport: { // 默认视窗较小，宽高建议设置一下，防止页面需要滚动或者样式乱
-    width,
-    height
-  },
-}
-
+const puppeteerOption = require('./puppeteer.config')
 // 创建Browser
-const createBrowser = async (option = {}) => await puppeteer.launch(extend(defaultOption, option))
+const createBrowser = async (option = {}) => await puppeteer.launch(extend(puppeteerOption, option))
 
 // 这种方式会导致page对象没有提示且需传入browser对象，typescript的断言真好；省不了几行代码，因此先不使用
 // const createPage = async (browser) => await browser.newPage()
