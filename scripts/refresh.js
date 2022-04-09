@@ -27,7 +27,9 @@ const refreshScript = async (user, password, projectId, filePath) => {
   project.fontClass = await getFontClass(page, projectId);
 
   await page.close();
+  chalkGreen('✔ 关闭Page');
   await browser.close();
+  chalkGreen('✔ 关闭Browser');
 
   return project
 }
