@@ -5,7 +5,7 @@ const { chalkGreen, spinnerStart, spinnerSucceed, resolvePath, joinPath } = requ
 // 是否存在 && 解压 && 删除 && 重命名
 const { isExist, removeFile, compressingZip, deleteDir, renameDir } = require('../utils/fileHandle');
 // 创建Browser && 登录 && 退出 && 处理操作引导
-const { createBrowser, login, loginout, handleIknowBtn, pageGo } = require('../utils/operation');
+const { createBrowser, login, logout, handleIknowBtn, pageGo } = require('../utils/operation');
 
 let browser = null,       // Puppeteer的Browser对象
     page = null,          // Puppeteer的Page对象
@@ -82,7 +82,7 @@ const downloadScript = async (id, name, user, password, filePath, isRelogin, isC
   spinnerSucceed('图标下载完成');
   // 同时更新多个图标库（且是不同用户时），在不关闭Browser和Page的情况下重新登录
   if (isRelogin) {
-    await loginout(page);
+    await logout(page);
     isNeedLogin = true;
   }
   // 当所有的图标库更新完毕时，关闭Browser和Page

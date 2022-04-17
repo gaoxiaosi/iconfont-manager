@@ -2,7 +2,10 @@
  * puppeteer的公共操作：
  * 1. createBrowser：创建浏览器对象（含默认配置）
  * 2. login：登录
- * 3. handleIknowBtn：处理“我知道了”按钮
+ * 3. logout：退出登录
+ * 4. handleIknowBtn：处理“我知道了”按钮
+ * 5. getProjectInfo：获取图标库信息
+ * 6. getFontClass：获取图标库在线地址
  */
 const puppeteer = require('puppeteer');
 
@@ -44,13 +47,11 @@ const login = async (page, user, password) => {
   spinnerSucceed('登录成功');
 }
 
-// 退出登录
-const loginout = async (page) => {
+// 退出登录：鼠标滑过右上角用户头像，点击退出按钮退出登录
+const logout = async (page) => {
   spinnerStart('开始退出登录');
-  // 鼠标滑过右上角用户头像，点击退出按钮退出登录
   await page.hover('.quick-menu > ul > li:last-child');
-  await page.click('.quick-menu .head-dropdown:last-child li:last-child');
-  // await page.waitForNavigation();
+  await page.click('.quick-menu> ul > li:last-child > .head-dropdown > li:last-child');
   await page.waitForNetworkIdle();
   spinnerSucceed('退出登录成功');
 }
@@ -127,7 +128,7 @@ module.exports = {
   createBrowser,
   pageGo,
   login,
-  loginout,
+  logout,
   handleIknowBtn,
   getProjectInfo,
   getFontClass
