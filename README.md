@@ -77,9 +77,9 @@ iconfont-manager preview <id>
 ```
 ![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step8-8.png)
 
-### 9. 更新图标库的信息（主要是获取最新的在线链接），只更新不下载
+### 9. 更新图标库的信息（主要是获取最新的在线链接），只更新不下载，支持多个id
 ``` js
-iconfont-manager refresh <id>
+iconfont-manager refresh <id...>
 ```
 ![](https://pic-host.oss-cn-shenzhen.aliyuncs.com/img/step9-9.png)
 

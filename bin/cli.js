@@ -22,9 +22,9 @@ program.command('init')
 program.command('refresh')
   .alias('r')
   .description('更新.iconfontrc文件中的某条数据，不进行下载操作')
-  .arguments('<projectId>')
-  .action((projectId) => {
-    require('../lib/refresh')(projectId)
+  .arguments('<projectIds...>')
+  .action((projectIds) => {
+    require('../lib/refresh')(projectIds)
   })
 
 program.command('update')
