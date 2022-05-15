@@ -19,9 +19,10 @@ const writeJSON = async (file, jsonData) => await fs.writeJSON(file, jsonData)
 // 通用：读取json文件
 const readJSON = async (jsonFile) => await fs.readJSON(jsonFile)
 
+// 错误提示
 const errorTip = `.iconfontrc不存在，请使用iconfont-manager init <phoneNumber> <password>进行初始化或在${homedir}目录下新建该文件`
 
-// 解析用户目录下的.iconfontrc文件
+// 解析用户目录下的.iconfontrc文件，获取所有的图标库信息
 const readConfig = async () => {
   let config = []
   if(!isExist(joinPath(homedir, '.iconfontrc'))) {
@@ -36,7 +37,7 @@ const readConfig = async () => {
   return config
 }
 
-// 解析用户目录下的.iconfontrc文件
+// 将新的图标库信息写入用户目录下的.iconfontrc文件
 const writeConfig = async (content) => {
   if(!isExist(joinPath(homedir, '.iconfontrc'))) {
     console.error(errorTip);

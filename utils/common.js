@@ -40,7 +40,6 @@ const findData = (list, key, search) => {
   } else {
     for(let [index, item] of list.entries()) {
       if (!search.length) break
-      // search.find((searchItem, i) => searchItem == item[key] && search.splice(i, 1) && result.push(extend({}, item, {_index: index})))
       let i = search.findIndex(searchItem => searchItem == item[key])
       i > -1 && search.splice(i, 1) && result.push(extend({}, item, {_index: index}))
     }
@@ -55,10 +54,10 @@ const getNowTime = () => {
   const now = new Date();
   const year = now.getFullYear(),
         month = (now.getMonth() + 1 + '').padStart(2, 0),
-        date = (now.getDate() + '').padStart(2, 0),
+        day = (now.getDate() + '').padStart(2, 0),
         hour = (now.getHours() + '').padStart(2, 0),
         minute = (now.getMinutes() + '').padStart(2, 0);
-  return `${year}-${month}-${date} ${hour}:${minute}`;
+  return `${year}-${month}-${day} ${hour}:${minute}`;
 }
 
 /**
