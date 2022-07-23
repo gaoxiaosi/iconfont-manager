@@ -9,6 +9,7 @@ const { tableDefaultOption, tableHeads, tableKeys } = require('./table.config');
 // 信息打印
 const chalkGreen = msg => console.log(chalk.green(msg))
 const chalkYellow = msg => console.log(chalk.yellow(msg))
+const chalkRed = msg => console.log(chalk.red(msg))
 const spinnerStart = msg => spinner.start(chalk.green(msg))
 const spinnerSucceed = msg => spinner.succeed(chalk.green(msg))
 
@@ -75,6 +76,7 @@ const showTable = (list, heads = tableHeads, keys = tableKeys) => {
 module.exports = {
   chalkGreen,
   chalkYellow,
+  chalkRed,
   spinnerStart,
   spinnerSucceed,
   throwError,

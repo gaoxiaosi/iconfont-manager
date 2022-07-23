@@ -17,11 +17,11 @@ const initScript = async (user, password) => {
   let projects = await getProjectInfo(page, user, password);
   spinnerSucceed('成功获取图标库基本信息');
 
-  spinnerStart('开始获取图标库在线链接');
-  for (let i = 0; i < projects.length; i++) {
-    projects[i].fontClass = await getFontClass(page, projects[i].id)
-  }
-  spinnerSucceed('成功获取图标库在线链接');
+  // spinnerStart('开始获取图标库在线链接');
+  // for (let i = 0; i < projects.length; i++) {
+  //   projects[i].fontClass = await getFontClass(page, projects[i].id)
+  // }
+  // spinnerSucceed('成功获取图标库在线链接');
 
   await page.close();
   chalkGreen('✔ 关闭Page');
