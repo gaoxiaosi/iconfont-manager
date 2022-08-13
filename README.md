@@ -10,7 +10,7 @@ iconfont-manger是一个可以管理所有iconfont图标库更新的工具。
 ## 功能
 
 ### 1. 初始化项目
-输入`iconfont官网`的手机号（若是GitHub账号，绑定手机号即可）与密码，自动执行爬虫脚本，将账号下的所有iconfont图标库的信息爬取并存储在用户目录的`.iconfontrc`文件（重要，可自行新建），然后修改`.iconfontrc`文件的`filePath`属性，设置各个图标库对应的保存地址，也可通过功能5图形化界面管理进行设置。
+输入`iconfont官网`的手机号（若是GitHub账号，绑定手机号即可）与密码，自动执行爬虫脚本，将账号下的所有iconfont图标库的信息爬取并存储在用户目录的`.iconfontrc`文件（重要，可自行新建），然后修改`.iconfontrc`文件的`filePath`属性，设置各个图标库对应的保存地址，也可通过功能5`iconfont-manager ui`图形化界面管理进行设置。
 ``` js
 iconfont-manager init <phoneNumber> <password>
 ```
