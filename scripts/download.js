@@ -30,7 +30,7 @@ const downloadScript = async (id, name, user, password, filePath, isRelogin, isC
     // 打开Browser和Page
     browser = await createBrowser();
     chalkGreen('✔ 打开Browser');
-    page = await browser.newPage();
+    page = await browser.pages().then(e => e[0]);
     chalkGreen('✔ 打开Page');
     isFirstEnter = false;
   }

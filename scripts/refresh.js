@@ -22,7 +22,8 @@ const refreshScript = async (id, name, user, password, filePath, isRelogin, isCl
   if (isFirstEnter) {
     browser = await createBrowser();
     chalkGreen('✔ 打开Browser');
-    page = await browser.newPage();
+    page = await browser.pages().then(e => e[0]);
+    // page = await browser.newPage();
     chalkGreen('✔ 打开Page');
     isFirstEnter = false;
   }

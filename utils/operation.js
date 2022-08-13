@@ -11,15 +11,12 @@ const puppeteer = require('puppeteer');
 
  // 超时时间，登录页面url，登录请求url，项目管理url
 const { loginUrl, loginRequestUrl, projectLibraryUrl, detailRequestUrl } = require('../utils/iconfont.config');
-// 开始打印 && 成功打印 && 主动抛错
+// 开始打印 && 成功打印 && 主动抛错 && 合并配置 && 获取当前时间
 const { spinnerStart, spinnerSucceed, throwError, extend, getNowTime } = require('../utils/common');
 
-const puppeteerOption = require('./puppeteer.config')
 // 创建Browser
-const createBrowser = async (option = {}) => await puppeteer.launch(extend(puppeteerOption, option))
-
-// 这种方式会导致page对象没有提示且需传入browser对象，typescript的断言真好；省不了几行代码，因此先不使用
-// const createPage = async (browser) => await browser.newPage()
+const puppeteerOption = require('./puppeteer.config');
+const createBrowser = async (option = {}) => await puppeteer.launch(extend(puppeteerOption, option));
 
 // 页面跳转
 const pageGo = async (page, url) => await page.goto(url, { waitUntil: 'domcontentloaded' })
@@ -33,17 +30,19 @@ const login = async (page, user, password) => {
   // 先清空表单，再重新输入账号密码（切换用户登录时输入框可能有缓存）
   await page.$eval('#userid', (input, user) => { input.value = user }, user);
   await page.$eval('#password', (input, password) => { input.value = password }, password);
-  // 登录请求结束后1秒，如果页面已经跳转，登录成功，代码照常执行，否则判断为登录失败
-  page.on('response', async(r) => {
-    if(r.url().includes(loginRequestUrl)) {
-      await page.waitForTimeout(1000);
-      !page.isClosed() && await page.$('.mx-btn-submit') && throwError('登录失败，账号或密码错误');
-    }
-  })
-  await page.click('.mx-btn-submit');
-  await page.$('#userid-error') && throwError('账号不合法');
-  await page.$('#password-error') && throwError('密码不合法');
-  await page.waitForNavigation();
+  // 先聚焦再失焦检测账号或密码是否合法（focus无法使用，原因不详）
+  await page.click('#userid');
+  await page.click('#password');
+  await page.click('#userid');
+  await page.$('#userid-error') && throwError('账号不合法或错误');
+  await page.$('#password-error') && throwError('密码不合法或错误');
+  await Promise.all([
+    page.click('.mx-btn-submit'),
+    page.waitForResponse(response => response.url().includes(loginRequestUrl))
+  ])
+  // 登录成功后会立即跳转，如果仍在当前页面，则是账号或密码错误
+  await page.waitForTimeout(1000);
+  await page.$('.mx-btn-submit') && throwError('账号或密码错误');
   spinnerSucceed('登录成功');
 }
 
@@ -99,25 +98,33 @@ const getProjectInfo = async (page, user, password, filePath = '', projectId = '
  * @returns {String} fontClass 在线链接
  */
 const getFontClass = async (page, projectId) => {
-  await pageGo(page, `${projectLibraryUrl}&projectId=${projectId}`)
+  await pageGo(page, `${projectLibraryUrl}&projectId=${projectId}`);
+  // 如果图标库的图标数量为0，则直接返回
+  await page.waitForSelector('.icon-count');
+  const iconCount = await page.$eval('.icon-count span', e => e.innerText);
+  if (Number(iconCount) === 0) {
+    return '空的图标库，无法生成链接'
+  }
   await page.waitForSelector('.bar-link');
-  // 处理使用指引的按钮的干扰，点击所有可视的“我知道了”按钮（可能有多个）
   await handleIknowBtn(page);
   let coverBtnLen = 0, codeLink = '', fontClass = '';
   coverBtnLen = await page.$$eval('.cover-btn', btns => btns.length);
+  // 如果在线链接是收起状态，点击查看在线链接
   coverBtnLen === 0 && await page.click('.bar-link');
-  // 第一次生成链接时
   await page.waitForSelector('.code-link');
-
   coverBtnLen = await page.$$eval('.cover-btn', btns => btns.length);
-  codeLink = await page.$eval('.code-link', el => el.innerText)
-  if (coverBtnLen === 2) {
-    // 点击更新代码
-    await page.$$eval('.cover-btn', btns => btns.map((btn, index) => index === 1 && btn.click()));
-    await page.waitForResponse(response => response.url().includes(detailRequestUrl));
-  } else if (coverBtnLen === 1 && !codeLink) {
-    await page.click('.cover-btn');
-    await page.waitForResponse(response => response.url().includes(detailRequestUrl));
+  codeLink = await page.$eval('.code-link', el => el.innerText);
+  // 情况1：codeLink为空 && coverBtnLen = 1 → 第一次生成链接
+  // 情况2：codeLink有值 && coverBtnLen = 1 → 已有链接 ，且不用更新（啥也不用干）
+  // 情况3：codeLink有值 && coverBtnLen = 2 → 已有链接，需要更新
+  // 若是情况1和3，点击更新代码，点击确认（更新）
+  if (!codeLink || coverBtnLen !== 1) {
+    await page.$$eval('.cover-btn', (btns, coverBtnLen) => btns.map((btn, index) => index === coverBtnLen - 1 && btn.click()), coverBtnLen);
+    await page.waitForSelector('.mx-modal-footer');
+    await Promise.all([
+      page.$$eval('.mx-modal-footer > button', btns => btns.map((btn, index) => index === 0 && btn.click())),
+      page.waitForResponse(response => response.url().includes(detailRequestUrl))
+    ])
   }
   await page.waitForSelector('.code-link');
   fontClass = await page.$eval('.code-link', el => el.innerText);

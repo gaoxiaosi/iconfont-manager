@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander');
-const { chalkYellow, chalkRed } = require('../utils/common');
+const { chalkYellow } = require('../utils/common');
 
 chalkYellow('Tips：iconfont网站可能有变化，若爬虫无法使用，请及时更新或到GitHub提交issue！');
 
@@ -24,8 +24,7 @@ program.command('refresh')
   .description('更新.iconfontrc文件中的某条数据，不进行下载操作')
   .arguments('<projectIds...>')
   .action((projectIds) => {
-    chalkRed('Tips：目前iconfont网站处于维护状态,无法使用在线链接的功能')
-    // require('../lib/refresh')(projectIds)
+    require('../lib/refresh')(projectIds)
   })
 
 program.command('update')
