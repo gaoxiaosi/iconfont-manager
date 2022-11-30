@@ -69,7 +69,7 @@ const downloadScript = async (id, name, user, password, filePath, isRelogin, isC
   // 处理使用指引的按钮的干扰，点击所有可视的“我知道了”按钮（可能有多个）
   await handleIknowBtn(page)
   // 点击下载按钮，触发压缩包下载（一个这么特殊的按钮一个特殊的id或class都没有，第一个a标签：下载至本地）
-  await page.click('.project-manage-bar > a.bar-text');
+  await page.click('.project-manage-bar .btn-group > a.bar-text');
   spinnerStart('开始下载图标');
   const start = Date.now();
   while (!isExist(zipPath)) {
