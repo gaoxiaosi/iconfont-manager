@@ -1,6 +1,6 @@
 {
   "name": "iconfont-manager",
-  "version": "1.9.2",
+  "version": "2.0.0",
   "description": "iconfont的自动化更新和管理",
   "main": "index.js",
   "scripts": {
@@ -36,8 +36,7 @@
     "koa-websocket": "^6.0.0",
     "open": "^8.4.0",
     "ora": "^4.1.1",
-    "os": "^0.1.2",
-    "puppeteer": "^13.3.2"
+    "puppeteer": "^24.0.0"
   },
   "devDependencies": {
     "jest": "^27.5.1"
