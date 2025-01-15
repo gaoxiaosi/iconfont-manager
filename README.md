@@ -2,10 +2,13 @@
 iconfont-manager是一个可以管理所有iconfont图标库更新的工具。
 
 ## 温馨提醒
-毕竟是爬虫，而iconfont网站页面结构可能会有变化，如果出现无法使用的情况，请及时更新或者到GitHub提交issue，我都会尽快解决！
+毕竟是爬虫，而iconfont网站页面结构可能会有变化，如果出现无法使用的情况，请及时更新或者到GitHub提交issue，我都会尽快解决！另外，如果更新版本后，出现无法使用的情况，可尝试先卸载再重新安装。
 
 ## 安装
 `npm i iconfont-manager -g`
+
+## 卸载
+`npm uninstall iconfont-manager -g`
 
 ## 功能
 
