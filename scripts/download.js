@@ -47,8 +47,15 @@ const downloadScript = async (id, name, user, password, filePath, isRelogin, isC
   spinnerSucceed('图标库管理页跳转成功');
 
   // 通过CDP会话设置下载路径，理论上也支持相对路径，已经拼好了绝对路径，当然建议使用绝对路径
+  // let savePath = resolvePath(filePath);
+  // await page._client.send('Page.setDownloadBehavior', {
+  //   behavior: 'allow', //允许下载请求
+  //   downloadPath: savePath  //设置下载路径
+  // });
+
   let savePath = resolvePath(filePath);
-  await page._client.send('Page.setDownloadBehavior', {
+  const client = await page.target().createCDPSession();
+  await client.send('Page.setDownloadBehavior', {
     behavior: 'allow', //允许下载请求
     downloadPath: savePath  //设置下载路径
   });
@@ -74,7 +81,7 @@ const downloadScript = async (id, name, user, password, filePath, isRelogin, isC
   const start = Date.now();
   while (!isExist(zipPath)) {
     // 每隔0.3秒看一下download.zip文件是否下载完毕，超时时间设为30秒
-    await page.waitForTimeout(300);
+    await new Promise((resolve) => setTimeout(resolve, 300));
     if (Date.now() - start >= timeout) {
       throw new Error('下载超时');
     }

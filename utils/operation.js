@@ -41,7 +41,7 @@ const login = async (page, user, password) => {
     page.waitForResponse(response => response.url().includes(loginRequestUrl))
   ])
   // 登录成功后会立即跳转，如果仍在当前页面，则是账号或密码错误
-  await page.waitForTimeout(1000);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await page.$('.mx-btn-submit') && throwError('账号或密码错误');
   spinnerSucceed('登录成功');
 }

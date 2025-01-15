@@ -296,6 +296,8 @@ function confirmAdd() {
       <label style="width: 15%;"><input class="user-input" type="text" placeholder="所属用户" value="${user}" /></label>
       <label style="width: 15%;"><input class="password-input" type="password" placeholder="密码" value="${password}" /></label>
       <label style="width: 40%;"><input class="path-input" type="text" placeholder="保存路径" value="${filePath}" /></label>
+      <label style="display: none;"><input class="class-input" type="text" placeholder="fontClass" value="" /></label>
+      <label style="display: none;"><input class="time-input" type="text" placeholder="更新时间" value="" /></label>
     </div>
     <div class="box-right">
       <button class="success" onClick="updateOneBtnClick(event)">更新</button>
