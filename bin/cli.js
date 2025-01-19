@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 const program = require('commander');
 const { chalkYellow } = require('../utils/common');
+const checkForUpdate = require('../lib/checkForUpdate');
 
 chalkYellow('Tips：iconfont网站可能有变化，若爬虫无法使用，请及时更新或到GitHub提交issue！');
+
+// 执行命令前，先检测一下是否需要更新
+program.hook('preAction', async() => await checkForUpdate())
 
 program.command('ls')
   .alias('l')
